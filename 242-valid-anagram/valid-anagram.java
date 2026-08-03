@@ -4,17 +4,20 @@ class Solution {
             return false;
         }
         
-        int[] count = new int[26];
+        Map<Character, Integer> count = new HashMap<>();
         
+        // increase count for each letter in s
         for (char c : s.toCharArray()) {
-            count[c - 'a']++;
+            count.put(c, count.getOrDefault(c, 0) + 1);
         }
         
+        // decrease count for each letter in t
         for (char c : t.toCharArray()) {
-            count[c - 'a']--;
+            count.put(c, count.getOrDefault(c, 0) - 1);
         }
         
-        for (int value : count) {
+        // check if everything cancelled out to 0
+        for (int value : count.values()) {
             if (value != 0) {
                 return false;
             }
