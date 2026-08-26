@@ -1,51 +1,25 @@
 class Solution {
     public long maximumSubarraySum(int[] nums, int k) {
+        HashSet<Integer>set=new HashSet<>();
         long max = 0;
         long sum = 0;
 
-        Map<Integer, Integer> ans = new HashMap<>();
-        int dups = 0;
-
-        for (int i = 0; i < k; i++) {
-            if (!ans.containsKey(nums[i])) {
-                ans.put(nums[i], 0);
+        int j=0;
+        for(int i=0;i<nums.length;i++){
+            while(set.contains(nums[i])){
+                set.remove(nums[j]);
+                sum-=nums[j];
+                j++;
             }
-            ans.put(nums[i], ans.get(nums[i]) + 1);
+            set.add(nums[i]);
+            sum+=nums[i];
 
-            sum = sum + nums[i];
-
-            if (ans.get(nums[i]) > 1) {
-                dups++;
+            if(i-j+1>k){
+                set.remove(nums[j]);
+                sum-=nums[j];
+                j++;
             }
-        }
-        if (dups == 0) {
-            max = Math.max(max, sum);
-        }
-
-        for (int i = k; i < nums.length; i++) {
-            int numToAdd = nums[i];
-            int numToRemove = nums[i - k];
-
-            if (!ans.containsKey(numToAdd)) {
-                ans.put(numToAdd, 0);
-            }
-            ans.put(numToAdd, ans.get(numToAdd) + 1);
-
-            if (ans.get(numToAdd) > 1) {
-                dups++;
-            }
-            sum = sum + numToAdd;
-
-            if (ans.get(numToRemove) > 1) {
-                dups--;
-            }
-            ans.put(numToRemove, ans.get(numToRemove) - 1);
-
-            sum = sum - numToRemove;
-
-            if (dups == 0) {
-                max = Math.max(max, sum);
-            }
+            if(i-j+1==k) max=Math.max(max,sum);
         }
         return max;
     }
