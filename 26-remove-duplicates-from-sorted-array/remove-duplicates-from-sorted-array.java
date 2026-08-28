@@ -5,9 +5,7 @@ class Solution {
         for(int i=1;i<n;i++){
             if(nums[left]!=nums[i]){
                 left++;
-                int temp = nums[left];
                 nums[left]=nums[i];
-                nums[i]=temp;
             }
         }
         return left+1;
